@@ -50,6 +50,7 @@ export class AppStack extends cdk.Stack {
     });
     nginxContainer.addPortMappings({ containerPort: 80 });
 
+    /*
     // Add db check container
     const dbCheckLogging = new ecs.AwsLogDriver({
       streamPrefix: "db-check",
@@ -62,7 +63,7 @@ export class AppStack extends cdk.Stack {
       logging: dbCheckLogging,
     });
     //dbCheckContainer.addPortMappings({ containerPort: 80 });
-
+*/
     // Instantiate Fargate Service with cluster and images
     const service = new ecs.FargateService(this, "Service", {
       cluster: props.cluster,
