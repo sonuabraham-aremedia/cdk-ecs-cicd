@@ -1,9 +1,9 @@
-import * as cdk from "@aws-cdk/core";
-import * as iam from "@aws-cdk/aws-iam";
-import * as ecr from "@aws-cdk/aws-ecr";
-import * as codebuild from "@aws-cdk/aws-codebuild";
-import * as codepipeline from "@aws-cdk/aws-codepipeline";
-import * as codepipeline_actions from "@aws-cdk/aws-codepipeline-actions";
+import cdk = require("aws-cdk-lib/core");
+import iam = require("aws-cdk-lib/aws-iam");
+import ecr = require("aws-cdk-lib/aws-ecr");
+import codebuild = require("aws-cdk-lib/aws-codebuild");
+import codepipeline = require("aws-cdk-lib/aws-codepipeline");
+import codepipeline_actions = require("aws-cdk-lib/aws-codepipeline-actions");
 
 import { PipelineContainerImage } from "./pipeline-container-image";
 import {
@@ -21,9 +21,12 @@ export class DevPipelineStack extends cdk.Stack {
   public readonly nginxRepository: ecr.Repository;
   public readonly nginxBuiltImage: PipelineContainerImage;
 
+  public readonly dbCheckRepository: ecr.Repository;
+  public readonly dbCheckBuiltImage: PipelineContainerImage;
+
   public readonly imageTag: string;
 
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
     super(scope, id, {
       ...props,
       //autoDeploy: false,
@@ -34,6 +37,9 @@ export class DevPipelineStack extends cdk.Stack {
 
     this.nginxRepository = new ecr.Repository(this, "NginxEcrRepo");
     this.nginxBuiltImage = new PipelineContainerImage(this.nginxRepository);
+
+    this.dbCheckRepository = new ecr.Repository(this, "DbCheckEcrRepo");
+    this.dbCheckBuiltImage = new PipelineContainerImage(this.dbCheckRepository);
 
     const sourceOutput = new codepipeline.Artifact();
     const sourceAction = new codepipeline_actions.GitHubSourceAction({
@@ -65,12 +71,14 @@ export class DevPipelineStack extends cdk.Stack {
               commands: [
                 "docker build -t $APP_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION app",
                 "docker build -t $NGINX_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION nginx",
+                "docker build -t $DBCHECK_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION nginx",
               ],
             },
             post_build: {
               commands: [
                 "docker push $APP_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION",
                 "docker push $NGINX_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION",
+                "docker push $DBCHECK_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION",
                 `printf '{ "imageTag": "'$CODEBUILD_RESOLVED_SOURCE_VERSION'" }' > imageTag.json`,
                 'aws ssm put-parameter --name "' +
                   ssmImageTagParamName +
@@ -89,6 +97,9 @@ export class DevPipelineStack extends cdk.Stack {
           NGINX_REPOSITORY_URI: {
             value: this.nginxRepository.repositoryUri,
           },
+          DBCHECK_REPOSITORY_URI: {
+            value: this.dbCheckRepository.repositoryUri,
+          },
         },
       }
     );
@@ -104,7 +115,7 @@ export class DevPipelineStack extends cdk.Stack {
 
     const cdkBuild = new codebuild.PipelineProject(this, "CdkBuildProject", {
       environment: {
-        buildImage: codebuild.LinuxBuildImage.UBUNTU_14_04_NODEJS_10_14_1,
+        buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
       },
       buildSpec: codebuild.BuildSpec.fromObject({
         version: "0.2",

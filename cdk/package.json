@@ -1,36 +1,27 @@
 {
-    "name": "cdktest",
-    "version": "0.1.0",
-    "bin": {
-        "cdktest": "bin/cdktest.js"
-    },
-    "scripts": {
-        "build": "tsc",
-        "watch": "tsc -w",
-        "test": "jest",
-        "cdk": "cdk"
-    },
-    "devDependencies": {
-        "aws-cdk": "1.32.1",
-        "@aws-cdk/assert": "1.32.1",
-        "@types/jest": "^25.2.1",
-        "@types/node": "13.11.1",
-        "jest": "^25.3.0",
-        "ts-jest": "^25.3.1",
-        "ts-node": "^8.8.2",
-        "typescript": "~3.8.3"
-    },
-    "dependencies": {
-        "@aws-cdk/aws-codebuild": "1.32.1",
-        "@aws-cdk/aws-codepipeline": "1.32.1",
-        "@aws-cdk/aws-codepipeline-actions": "1.32.1",
-        "@aws-cdk/aws-ec2": "1.32.1",
-        "@aws-cdk/aws-ecs": "1.32.1",
-        "@aws-cdk/aws-elasticloadbalancingv2": "1.32.1",
-        "@aws-cdk/aws-iam": "1.32.1",
-        "@aws-cdk/aws-s3": "1.32.1",
-        "@aws-cdk/aws-ssm": "1.32.1",
-        "@aws-cdk/core": "1.32.1",
-        "source-map-support": "^0.5.16"
-    }
+  "name": "cdk-ecs-cicd",
+  "version": "1.0.0",
+  "description": "ECS build pipeline",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk"
+  },
+  "author": {
+    "name": "Amazon Web Services",
+    "url": "https://aws.amazon.com",
+    "organization": true
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/node": "^8.10.38",
+    "aws-cdk": "*",
+    "typescript": "~5.1.6"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.0.0",
+    "constructs": "^10.0.0",
+    "source-map-support": "^0.5.21"
+  }
 }
