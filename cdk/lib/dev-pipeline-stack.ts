@@ -57,7 +57,7 @@ export class DevPipelineStack extends cdk.Stack {
       "DockerCodeBuildProject",
       {
         environment: {
-          buildImage: codebuild.LinuxBuildImage.STANDARD_2_0,
+          buildImage: codebuild.LinuxBuildImage.STANDARD_5_0,
           privileged: true,
         },
         buildSpec: codebuild.BuildSpec.fromObject({
