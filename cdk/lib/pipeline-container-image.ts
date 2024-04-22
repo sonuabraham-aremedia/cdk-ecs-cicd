@@ -34,8 +34,9 @@ export class PipelineContainerImage extends ContainerImage {
   }
 
   public get paramName(): string {
-    return cdk.Token.asString(this.parameter!.logicalId).toString();
+    //return cdk.Token.asString(this.parameter!.logicalId).toString();
     //return Lazy.string({ produce: () => this.parameter!.logicalId });
+    return "Test";
   }
 
   public toRepositoryCredentialsJson():
