@@ -22,7 +22,6 @@ export class AppStack extends cdk.Stack {
       cpu: 256,
     });
 
-    /*
     // Add app container
     const appLogging = new ecs.AwsLogDriver({
       streamPrefix: "app",
@@ -32,13 +31,12 @@ export class AppStack extends cdk.Stack {
       props.appImage ||
       new ecs.AssetImage(path.join(__dirname, "../..", "app"));
 
-      
     const appContainer = taskDefinition.addContainer("app", {
       image: appImage,
       logging: appLogging,
     });
     appContainer.addPortMappings({ containerPort: 3000 });
-*/
+
     // Add nginx container
     const nginxLogging = new ecs.AwsLogDriver({
       streamPrefix: "nginx",
@@ -51,7 +49,7 @@ export class AppStack extends cdk.Stack {
       logging: nginxLogging,
     });
     nginxContainer.addPortMappings({ containerPort: 80 });
-
+    /*
     // Add db check container
     const dbCheckLogging = new ecs.AwsLogDriver({
       streamPrefix: "db-check",
@@ -64,7 +62,7 @@ export class AppStack extends cdk.Stack {
       logging: dbCheckLogging,
     });
     dbCheckContainer.addPortMappings({ containerPort: 3000 });
-
+*/
     // Instantiate Fargate Service with cluster and images
     const service = new ecs.FargateService(this, "Service", {
       cluster: props.cluster,
