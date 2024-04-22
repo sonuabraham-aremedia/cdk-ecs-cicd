@@ -95,7 +95,7 @@ export class AppStack extends cdk.Stack {
     });
 
     // CfnOutput the DNS where you can access your service
-    new cdk.CfnOutput(this, "LoadBalancerDNS", {
+    new cdk.CfnOutput(this, "LoadBalancerDNSName", {
       value: lb.loadBalancerDnsName,
     });
   }
