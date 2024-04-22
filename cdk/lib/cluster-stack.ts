@@ -1,6 +1,7 @@
 import cdk = require("aws-cdk-lib/core");
 import ec2 = require("aws-cdk-lib/aws-ec2");
 import ecs = require("aws-cdk-lib/aws-ecs");
+import rds = require("aws-cdk-lib/aws-rds");
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { Duration, RemovalPolicy } from "aws-cdk-lib";
 
@@ -30,6 +31,7 @@ export interface ClusterStackProps extends cdk.StackProps {
 export class ClusterStack extends cdk.Stack {
   public readonly vpc: ec2.Vpc;
   public readonly cluster: ecs.Cluster;
+  public readonly dbInstance: rds.DatabaseInstance;
 
   constructor(scope: cdk.App, id: string, props: ClusterStackProps) {
     super(scope, id, props);
@@ -76,7 +78,7 @@ export class ClusterStack extends cdk.Stack {
       `Allow port ${port} for database connection from only within the VPC (${this.vpc.vpcId})`
     );
 
-    const dbInstance = new DatabaseInstance(this, "DB-1", {
+    this.dbInstance = new DatabaseInstance(this, "DB-1", {
       vpc: this.vpc,
       vpcSubnets: { subnetType: SubnetType.PRIVATE_WITH_EGRESS },
       instanceType,
@@ -90,5 +92,7 @@ export class ClusterStack extends cdk.Stack {
       removalPolicy: RemovalPolicy.DESTROY,
       allocatedStorage: 20,
     });
+
+    //masterUserSecret.attach(this.dbInstance);
   }
 }
