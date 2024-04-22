@@ -62,6 +62,7 @@ const devAppStack = new AppStack(app, "DevAppStack", {
   //autoDeploy: false,
   appImage: devPipelineStack.appBuiltImage,
   nginxImage: devPipelineStack.nginxBuiltImage,
+  dbCheckImage: devPipelineStack.dbCheckBuiltImage,
 });
 //cdk.Tag.apply(devAppStack, "environment", "dev");
 
