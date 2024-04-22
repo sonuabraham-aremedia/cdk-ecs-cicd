@@ -71,7 +71,7 @@ export class DevPipelineStack extends cdk.Stack {
               commands: [
                 "docker build -t $APP_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION app",
                 "docker build -t $NGINX_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION nginx",
-                "docker build -t $DBCHECK_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION nginx",
+                "docker build -t $DBCHECK_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION dbcheck",
               ],
             },
             post_build: {
