@@ -52,7 +52,7 @@ export class AppStack extends cdk.Stack {
 
     // Add db check container
     const dbCheckLogging = new ecs.AwsLogDriver({
-      streamPrefix: "db-check",
+      streamPrefix: "dbcheck",
     });
     const dbCheckImage =
       props.dbCheckImage ||
