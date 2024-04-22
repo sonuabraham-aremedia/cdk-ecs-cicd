@@ -112,6 +112,7 @@ export class DevPipelineStack extends cdk.Stack {
     );
     this.appRepository.grantPullPush(dockerBuild);
     this.nginxRepository.grantPullPush(dockerBuild);
+    this.dbCheckRepository.grantPullPush(dockerBuild);
 
     const cdkBuild = new codebuild.PipelineProject(this, "CdkBuildProject", {
       environment: {
@@ -184,6 +185,10 @@ export class DevPipelineStack extends cdk.Stack {
                   "imageTag"
                 ),
                 [this.nginxBuiltImage.paramName]: dockerBuildOutput.getParam(
+                  "imageTag.json",
+                  "imageTag"
+                ),
+                [this.dbCheckBuiltImage.paramName]: dockerBuildOutput.getParam(
                   "imageTag.json",
                   "imageTag"
                 ),
