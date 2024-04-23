@@ -29,7 +29,7 @@ export class AppStack extends cdk.Stack {
 
     const appImage =
       props.appImage ||
-      new ecs.AssetImage(path.join(__dirname, "../..", "app"));
+      new ecs.AssetImage(path.join(__dirname, "../..", "dbcheck"));
 
     const appContainer = taskDefinition.addContainer("app", {
       image: appImage,
