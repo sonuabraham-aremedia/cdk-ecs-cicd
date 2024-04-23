@@ -21,8 +21,8 @@ export class DevPipelineStack extends cdk.Stack {
   public readonly nginxRepository: ecr.Repository;
   public readonly nginxBuiltImage: PipelineContainerImage;
 
-  public readonly dbCheckRepository: ecr.Repository;
-  public readonly dbCheckBuiltImage: PipelineContainerImage;
+  // public readonly dbCheckRepository: ecr.Repository;
+  //public readonly dbCheckBuiltImage: PipelineContainerImage;
 
   public readonly imageTag: string;
 
@@ -38,8 +38,8 @@ export class DevPipelineStack extends cdk.Stack {
     this.nginxRepository = new ecr.Repository(this, "NginxEcrRepo");
     this.nginxBuiltImage = new PipelineContainerImage(this.nginxRepository);
 
-    this.dbCheckRepository = new ecr.Repository(this, "DbCheckEcrRepo");
-    this.dbCheckBuiltImage = new PipelineContainerImage(this.dbCheckRepository);
+    //this.dbCheckRepository = new ecr.Repository(this, "DbCheckEcrRepo");
+    //this.dbCheckBuiltImage = new PipelineContainerImage(this.dbCheckRepository);
 
     const sourceOutput = new codepipeline.Artifact();
     const sourceAction = new codepipeline_actions.GitHubSourceAction({
