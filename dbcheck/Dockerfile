@@ -4,7 +4,11 @@ USER app
 WORKDIR /app
 COPY --chown=app:node package*.json ./
 RUN npm install
-COPY --chown=app:node . .
+
+RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
+
+#COPY --chown=app:node . .
+COPY . .
 #ENV API_URL=http://api.myapp.com/
 EXPOSE 3000
 # Shell form
