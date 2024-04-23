@@ -21,7 +21,7 @@ export class AppStack extends cdk.Stack {
       memoryLimitMiB: 512,
       cpu: 256,
     });
-
+/*
     // Add app container
     const appLogging = new ecs.AwsLogDriver({
       streamPrefix: "app",
@@ -35,7 +35,7 @@ export class AppStack extends cdk.Stack {
       logging: appLogging,
     });
     appContainer.addPortMappings({ containerPort: 3000 });
-
+*/
     // Add nginx container
     const nginxLogging = new ecs.AwsLogDriver({
       streamPrefix: "nginx",
