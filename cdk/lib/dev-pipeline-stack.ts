@@ -64,11 +64,16 @@ export class DevPipelineStack extends cdk.Stack {
           version: "0.2",
           phases: {
             pre_build: {
-              commands:
-                "$(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)",
+              commands: [
+                //"$(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)",
+                "aws ecr get-login-password | docker login --username AWS --password-stdin 391970746680.dkr.ecr.ap-southeast-2.amazonaws.com/$APP_REPOSITORY_URI",
+                "aws ecr get-login-password | docker login --username AWS --password-stdin 391970746680.dkr.ecr.ap-southeast-2.amazonaws.com/$NGINX_REPOSITORY_URI",
+                "aws ecr get-login-password | docker login --username AWS --password-stdin 391970746680.dkr.ecr.ap-southeast-2.amazonaws.com/$DBCHECK_REPOSITORY_URI",
+              ],
             },
             build: {
               commands: [
+                //"aws ecr get-login-password | docker login --username AWS --password-stdin 391970746680.dkr.ecr.ap-southeast-2.amazonaws.com/$APP_REPOSITORY_URI",
                 "docker build -t $APP_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION app",
                 "docker build -t $NGINX_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION nginx",
                 "docker build -t $DBCHECK_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION dbcheck",
