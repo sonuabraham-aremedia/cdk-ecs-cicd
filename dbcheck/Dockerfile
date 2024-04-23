@@ -2,10 +2,11 @@ FROM node:18.6.0-alpine3.15
 RUN addgroup app && adduser -S -G app app
 USER app
 WORKDIR /app
+RUN sudo chown -R $(whoami) /app
 COPY --chown=app:node package*.json ./
 RUN npm install
 
-RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
+#RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
 
 #COPY --chown=app:node . .
 COPY . .
