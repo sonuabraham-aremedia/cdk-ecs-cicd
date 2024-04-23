@@ -68,7 +68,7 @@ export class DevPipelineStack extends cdk.Stack {
                 //"$(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)",
                 "aws ecr get-login-password | docker login --username AWS --password-stdin 391970746680.dkr.ecr.ap-southeast-2.amazonaws.com/$APP_REPOSITORY_URI",
                 "aws ecr get-login-password | docker login --username AWS --password-stdin 391970746680.dkr.ecr.ap-southeast-2.amazonaws.com/$NGINX_REPOSITORY_URI",
-                "aws ecr get-login-password | docker login --username AWS --password-stdin 391970746680.dkr.ecr.ap-southeast-2.amazonaws.com/$DBCHECK_REPOSITORY_URI",
+                //"aws ecr get-login-password | docker login --username AWS --password-stdin 391970746680.dkr.ecr.ap-southeast-2.amazonaws.com/$DBCHECK_REPOSITORY_URI",
               ],
             },
             build: {
@@ -76,14 +76,14 @@ export class DevPipelineStack extends cdk.Stack {
                 //"aws ecr get-login-password | docker login --username AWS --password-stdin 391970746680.dkr.ecr.ap-southeast-2.amazonaws.com/$APP_REPOSITORY_URI",
                 "docker build -t $APP_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION app",
                 "docker build -t $NGINX_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION nginx",
-                "docker build -t $DBCHECK_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION dbcheck",
+                //"docker build -t $DBCHECK_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION dbcheck",
               ],
             },
             post_build: {
               commands: [
                 "docker push $APP_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION",
                 "docker push $NGINX_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION",
-                "docker push $DBCHECK_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION",
+                //"docker push $DBCHECK_REPOSITORY_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION",
                 `printf '{ "imageTag": "'$CODEBUILD_RESOLVED_SOURCE_VERSION'" }' > imageTag.json`,
                 'aws ssm put-parameter --name "' +
                   ssmImageTagParamName +
@@ -102,9 +102,9 @@ export class DevPipelineStack extends cdk.Stack {
           NGINX_REPOSITORY_URI: {
             value: this.nginxRepository.repositoryUri,
           },
-          DBCHECK_REPOSITORY_URI: {
-            value: this.dbCheckRepository.repositoryUri,
-          },
+          //DBCHECK_REPOSITORY_URI: {
+          //value: this.dbCheckRepository.repositoryUri,
+          //},
         },
       }
     );
@@ -117,7 +117,7 @@ export class DevPipelineStack extends cdk.Stack {
     );
     this.appRepository.grantPullPush(dockerBuild);
     this.nginxRepository.grantPullPush(dockerBuild);
-    this.dbCheckRepository.grantPullPush(dockerBuild);
+    //this.dbCheckRepository.grantPullPush(dockerBuild);
 
     const cdkBuild = new codebuild.PipelineProject(this, "CdkBuildProject", {
       environment: {
@@ -193,10 +193,10 @@ export class DevPipelineStack extends cdk.Stack {
                   "imageTag.json",
                   "imageTag"
                 ),
-                [this.dbCheckBuiltImage.paramName]: dockerBuildOutput.getParam(
-                  "imageTag.json",
-                  "imageTag"
-                ),
+                // [this.dbCheckBuiltImage.paramName]: dockerBuildOutput.getParam(
+                // "imageTag.json",
+                // "imageTag"
+                //),
               },
               extraInputs: [dockerBuildOutput],
             }),

@@ -1,17 +1,22 @@
-FROM python:3.5-slim
-
-MAINTAINER fernando@linuxacademy.com
-
-USER root
-
+FROM node:18.6.0-alpine3.15
+RUN addgroup app && adduser -S -G app app
+#USER app
 WORKDIR /app
+RUN echo $(whoami)
+RUN chown -R $(whoami) /app
+COPY --chown=app:node package*.json ./
+RUN npm install
 
-ADD . /app
+#RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
 
-RUN pip install --trusted-host pypi.python.org -r requirements.txt
-
+#COPY --chown=app:node . .
+COPY . .
+#ENV API_URL=http://api.myapp.com/
 EXPOSE 3000
+# Shell form
+# /bin/sh
+# This command will spin a new shell and execute the command there
+# CMD npm start
 
-ENV NAME World
-
-CMD ["python", "app.py"]
+# Exec form
+CMD ["npm", "start"]

@@ -50,6 +50,7 @@ const stagingProdPipelineStack = new StagingProdPipelineStack(
   {
     appRepository: devPipelineStack.appRepository,
     nginxRepository: devPipelineStack.nginxRepository,
+    //dbCheckRepository: devPipelineStack.dbCheckRepository,
     imageTag: devPipelineStack.imageTag,
   }
 );
@@ -62,7 +63,7 @@ const devAppStack = new AppStack(app, "DevAppStack", {
   //autoDeploy: false,
   appImage: devPipelineStack.appBuiltImage,
   nginxImage: devPipelineStack.nginxBuiltImage,
-  dbCheckImage: devPipelineStack.dbCheckBuiltImage,
+  // dbCheckImage: devPipelineStack.dbCheckBuiltImage,
 });
 //cdk.Tag.apply(devAppStack, "environment", "dev");
 

@@ -9,7 +9,7 @@ export interface AppStackProps extends cdk.StackProps {
   cluster: ecs.Cluster;
   appImage?: ecs.ContainerImage;
   nginxImage?: ecs.ContainerImage;
-  dbCheckImage?: ecs.ContainerImage;
+  //dbCheckImage?: ecs.ContainerImage;
 }
 
 export class AppStack extends cdk.Stack {
@@ -27,11 +27,10 @@ export class AppStack extends cdk.Stack {
       streamPrefix: "app",
     });
 
-    const appImage1 =
-      new ecs.AssetImage(path.join(__dirname, "../..", "dbcheck"));
+    const appImage = new ecs.AssetImage(path.join(__dirname, "../..", "app"));
 
     const appContainer = taskDefinition.addContainer("app", {
-      image: appImage1,
+      image: appImage,
       logging: appLogging,
     });
     appContainer.addPortMappings({ containerPort: 3000 });
