@@ -28,11 +28,11 @@ export class AppStack extends cdk.Stack {
     });
 
     const appImage =
-      props.appImage ||
+      props.appImage1 ||
       new ecs.AssetImage(path.join(__dirname, "../..", "dbcheck"));
 
     const appContainer = taskDefinition.addContainer("dbcheck", {
-      image: appImage,
+      image: appImage1,
       logging: appLogging,
     });
     appContainer.addPortMappings({ containerPort: 3000 });
