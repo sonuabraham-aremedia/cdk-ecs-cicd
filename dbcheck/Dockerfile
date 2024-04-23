@@ -1,6 +1,6 @@
 FROM node:18.6.0-alpine3.15
 RUN addgroup app && adduser -S -G app app
-USER app
+#USER app
 WORKDIR /app
 RUN echo $(whoami)
 RUN chown -R $(whoami) /app
