@@ -62,13 +62,13 @@ export class AppStack extends cdk.Stack {
       logging: dbCheckLogging,
     });
     dbCheckContainer.addPortMappings({ containerPort: 3000 });
-
+*/
     // Instantiate Fargate Service with cluster and images
     const service = new ecs.FargateService(this, "Service", {
       cluster: props.cluster,
       taskDefinition,
     });
-*/
+
     // Setup autoscaling
     const scaling = service.autoScaleTaskCount({ maxCapacity: 4 });
     scaling.scaleOnCpuUtilization("CpuScaling", {
