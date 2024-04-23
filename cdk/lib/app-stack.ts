@@ -22,7 +22,7 @@ export class AppStack extends cdk.Stack {
       cpu: 256,
     });
 
-    /*// Add app container
+    // Add app container
     const appLogging = new ecs.AwsLogDriver({
       streamPrefix: "app",
     });
@@ -36,7 +36,7 @@ export class AppStack extends cdk.Stack {
       logging: appLogging,
     });
     appContainer.addPortMappings({ containerPort: 3000 });
-*/
+
     // Add nginx container
     const nginxLogging = new ecs.AwsLogDriver({
       streamPrefix: "nginx",
@@ -49,7 +49,7 @@ export class AppStack extends cdk.Stack {
       logging: nginxLogging,
     });
     nginxContainer.addPortMappings({ containerPort: 80 });
-
+    /*
     // Add db check container
     const dbCheckLogging = new ecs.AwsLogDriver({
       streamPrefix: "dbcheck",
@@ -68,7 +68,7 @@ export class AppStack extends cdk.Stack {
       cluster: props.cluster,
       taskDefinition,
     });
-
+*/
     // Setup autoscaling
     const scaling = service.autoScaleTaskCount({ maxCapacity: 4 });
     scaling.scaleOnCpuUtilization("CpuScaling", {
