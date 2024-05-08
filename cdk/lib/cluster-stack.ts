@@ -45,6 +45,7 @@ export class ClusterStack extends cdk.Stack {
       vpc: this.vpc,
     });
 
+    /*
     const engine = DatabaseInstanceEngine.mysql({
       version: MysqlEngineVersion.VER_8_0,
     });
@@ -92,6 +93,8 @@ export class ClusterStack extends cdk.Stack {
       removalPolicy: RemovalPolicy.DESTROY,
       allocatedStorage: 20,
     });
+
+    */
 
     //masterUserSecret.attach(this.dbInstance);
   }
